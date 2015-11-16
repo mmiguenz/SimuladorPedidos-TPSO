@@ -19,9 +19,15 @@ t_log* logSimulador;
 
 int main()
 {
-	int socketServidor = establecerConexion("config.cfg",&modulo);
+	char* rutaPedidos=malloc(100) ;
+	int socketServidor = establecerConexion("config.cfg",&modulo,rutaPedidos);
 	listaPedidos = list_create();
-	archivoPedidos= fopen("pedidos","r");
+
+	char* pathPedidos = malloc(200);
+	strcpy(pathPedidos,"RepertorioPedidos/");
+	strcat(pathPedidos,rutaPedidos);
+
+	archivoPedidos= fopen(pathPedidos,"r");
     logSimulador= log_create("LogSimulador","SimuladorDePedidos",false,LOG_LEVEL_INFO);
 
 
@@ -113,7 +119,24 @@ void procesarInicio(void* elemento,int socketServidor)
 void procesarLectura(void* elemento,int socketServidor)
 {
 
+	t_protoc_inicio_lectura_Proceso* pedido = elemento;
 
+	int bytesEnviados=0;
+
+	bytesEnviados+=send(socketServidor,&pedido->tipoInstrucc,sizeof(char),0);
+	bytesEnviados+=send(socketServidor,&pedido->paginas,sizeof(int),0);
+	bytesEnviados+=send(socketServidor,&pedido->pid,sizeof(int),0);
+
+	printf("se envio Pedido Inicio. Bytes Enviados = %d\n",bytesEnviados);
+
+	int tamanioContenido;
+	recv(socketServidor,&tamanioContenido,sizeof(int),0);
+	char*  contenido = malloc(tamanioContenido);
+	recv(socketServidor,contenido,tamanioContenido,0);
+
+	log_info(logSimulador,"PID = %d | PAGINA LEIDA = %d | CONTENIDO = %s",pedido->pid,pedido->paginas,contenido);
+
+	free(contenido);
 }
 void procesarEscritura(void* elemento,int socketServidor)
 {
