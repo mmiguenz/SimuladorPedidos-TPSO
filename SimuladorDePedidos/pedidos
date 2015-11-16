@@ -1,0 +1,10 @@
+#estructura del pedido
+#tipoInstruccion;paginas;pid (leer-iniciar-finalizar (memoria))
+#tipoInstruccion;pid (finalizar (Swap))
+#tipoInstruccion;paginas;pid;tamanio;contenido;(escribir)
+1;10;225;
+1;10;227;
+1;10;226;
+4;10;225;
+4;10;227;
+4;10;226;
