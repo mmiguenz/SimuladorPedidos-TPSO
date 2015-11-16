@@ -9,7 +9,7 @@
 
 
 
-
+void mostrar();
 typedef enum {MEMORIA=1,SWAP}modulos;
 
 FILE *archivoPedidos;
@@ -29,6 +29,8 @@ int main()
 	parsearPedidos(listaPedidos,archivoPedidos);
 	procesar(listaPedidos,modulo,socketServidor);
 
+	//mostrar();
+
 
 
 	list_destroy_and_destroy_elements(listaPedidos,free);
@@ -47,6 +49,7 @@ void procesar(t_list* listaPedidos, int modulo,int socketServidor)
 	{
 
 		void* elemento = list_get(listaPedidos,i);
+
 		 char tipoInstruccion;
 
 
@@ -77,9 +80,8 @@ void procesar(t_list* listaPedidos, int modulo,int socketServidor)
 void procesarInicio(void* elemento,int socketServidor)
 {
 
-	t_protoc_inicio_lectura_Proceso* pedido = malloc(sizeof(t_protoc_inicio_lectura_Proceso));
+	t_protoc_inicio_lectura_Proceso* pedido = elemento;
 
-	memcpy(pedido,elemento,sizeof(t_protoc_inicio_lectura_Proceso));
 	int bytesEnviados=0;
 
 	bytesEnviados+=send(socketServidor,&pedido->tipoInstrucc,sizeof(char),0);
@@ -106,9 +108,6 @@ void procesarInicio(void* elemento,int socketServidor)
 
 
 
-	free(pedido);
-
-
 
 }
 void procesarLectura(void* elemento,int socketServidor)
@@ -124,9 +123,8 @@ void procesarEscritura(void* elemento,int socketServidor)
 }
 void procesarFinaliza(void* elemento,int socketServidor)
 {
-	t_protoc_inicio_lectura_Proceso* pedido = malloc(sizeof(t_protoc_inicio_lectura_Proceso));
+	t_protoc_inicio_lectura_Proceso* pedido = elemento;
 
-	memcpy(pedido,elemento,sizeof(t_protoc_Finaliza));
 
 	int bytesEnviados=0;
 
@@ -164,6 +162,28 @@ void procesarFinaliza(void* elemento,int socketServidor)
 
 	}
 
-	free(pedido);
+
+
+}
+void mostrar()
+{
+	int i ;
+	for(i=0; i<list_size(listaPedidos);i++)
+	{
+		char inst;
+		int pag;
+		int pid;
+
+		void* buff = list_get(listaPedidos,i);
+
+		memcpy(&inst,buff,sizeof(char));
+		memcpy(&pag , buff+1, sizeof(int));
+		memcpy(&pid , buff+4+1, sizeof(int));
+
+		printf("Leido INS: %d PAG: %d PID = %d \n ",inst,pag,pid);
+
+
+	}
+
 
 }
