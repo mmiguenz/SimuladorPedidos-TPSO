@@ -1,0 +1,6 @@
+#estructura del pedido
+#tipoInstruccion;paginas;pid (leer-iniciar-finalizar)
+1;10;225;
+1;10;227;
+2;4;225;
+2;4;227;
