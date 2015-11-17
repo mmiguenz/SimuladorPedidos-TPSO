@@ -30,14 +30,14 @@ void parsearPedidos(t_list* listaPedidos, FILE* archivoPedidos)
 		}else
 		{
 
-
 			t_protoc_escrituraProceso* pedido = malloc(sizeof(t_protoc_escrituraProceso));
 
-
-			pedido->pid=atoi(aux[0]);
+			pedido->tipoInstrucc= ESCRIBIR;
+			pedido->pid=atoi(aux[2]);
 			pedido->pagina= atoi(aux[1]);
-			pedido->contenido=aux[2];
-			pedido->tamanio=strlen(pedido->contenido);
+			pedido->contenido=aux[3];
+			pedido->tamanio=strlen(pedido->contenido)+1;
+
 
 
 

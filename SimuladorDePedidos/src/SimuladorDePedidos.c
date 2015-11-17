@@ -127,7 +127,7 @@ void procesarLectura(void* elemento,int socketServidor)
 	bytesEnviados+=send(socketServidor,&pedido->paginas,sizeof(int),0);
 	bytesEnviados+=send(socketServidor,&pedido->pid,sizeof(int),0);
 
-	printf("se envio Pedido Inicio. Bytes Enviados = %d\n",bytesEnviados);
+	printf("se envio Pedido Lectura. Bytes Enviados = %d\n",bytesEnviados);
 
 	int tamanioContenido;
 	recv(socketServidor,&tamanioContenido,sizeof(int),0);
@@ -140,6 +140,30 @@ void procesarLectura(void* elemento,int socketServidor)
 }
 void procesarEscritura(void* elemento,int socketServidor)
 {
+
+	t_protoc_escrituraProceso* pedido = elemento;
+
+
+	int bytesEnviados=0;
+
+		bytesEnviados+=send(socketServidor,&pedido->tipoInstrucc,sizeof(char),0);
+		bytesEnviados+=send(socketServidor,&pedido->pid,sizeof(int),0);
+		bytesEnviados+=send(socketServidor,&pedido->pagina,sizeof(int),0);
+		bytesEnviados+=send(socketServidor,&pedido->tamanio,sizeof(int),0);
+		bytesEnviados+=send(socketServidor,pedido->contenido,pedido->tamanio,0);
+
+		printf("se envio Pedido Escritura. Bytes Enviados = %d\n",bytesEnviados);
+
+		char respuesta;
+		recv(socketServidor,&respuesta,sizeof(char),0);
+
+		if(respuesta)
+		log_info(logSimulador,"PID = %d | PAGINA ESCRITA = %d | CONTENIDO = %s",pedido->pid,pedido->pagina,pedido->contenido);
+		else
+			log_info(logSimulador,"PID = %d | FALLO AL ECRIBIR = %d | CONTENIDO = %s",pedido->pid,pedido->pagina,pedido->contenido);
+
+
+
 
 
 
