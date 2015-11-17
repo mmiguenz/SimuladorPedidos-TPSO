@@ -6,10 +6,9 @@ Archivo config :
 
 - Se ingresaran IP y PUERTO de donde del servidor al que nos queremos conectar para enviar pedidos
 - Seleccionar Modulo  1 = Memoria ,  2 = Swap
-- RUTA : nombre del archivo de instrucciones que buscara en la carpeta "RepertorioDeInstrucciones"
-- 
+- campo ruta  nombre del archivo de instrucciones que buscara en la carpeta "RepertorioDeInstrucciones"
 
-Archivo Instrucciones
+Archivo Instrucciones:
 
 INICIO - LECTURA - FINALIZAR
 Formato
