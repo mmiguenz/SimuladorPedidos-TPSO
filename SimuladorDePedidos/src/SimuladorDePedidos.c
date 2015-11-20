@@ -109,7 +109,10 @@ void procesarInicio(void* elemento,int socketServidor)
 
 	}else
 	{
+
+		procesarFinaliza(elemento,socketServidor);
 		log_info(logSimulador,"FALLO INICIO | PID = %d PAGINAS = %d",pedido->pid,pedido->paginas);
+
 
 	}
 
