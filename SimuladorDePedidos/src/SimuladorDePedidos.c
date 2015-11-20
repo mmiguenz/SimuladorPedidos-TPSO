@@ -110,7 +110,6 @@ void procesarInicio(void* elemento,int socketServidor)
 	}else
 	{
 
-		procesarFinaliza(elemento,socketServidor);
 		log_info(logSimulador,"FALLO INICIO | PID = %d PAGINAS = %d",pedido->pid,pedido->paginas);
 
 
@@ -162,10 +161,15 @@ void procesarEscritura(void* elemento,int socketServidor)
 		recv(socketServidor,&respuesta,sizeof(char),0);
 
 		if(respuesta)
+		{
 		log_info(logSimulador,"PID = %d | PAGINA ESCRITA = %d | CONTENIDO = %s",pedido->pid,pedido->pagina,pedido->contenido);
-		else
-			log_info(logSimulador,"PID = %d | FALLO AL ECRIBIR = %d | CONTENIDO = %s",pedido->pid,pedido->pagina,pedido->contenido);
 
+		}
+		else
+		{
+			log_info(logSimulador,"PID = %d | FALLO AL ECRIBIR = %d | CONTENIDO = %s",pedido->pid,pedido->pagina,pedido->contenido);
+			procesarFinaliza(elemento,socketServidor);
+		}
 
 
 
