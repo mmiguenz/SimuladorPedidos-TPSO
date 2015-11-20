@@ -54,6 +54,7 @@ void procesar(t_list* listaPedidos, int modulo,int socketServidor)
 	for(i=0; i<list_size(listaPedidos); i++)
 	{
 
+		log_info(logSimulador,"Instruccion #%d",i);
 		void* elemento = list_get(listaPedidos,i);
 
 		 char tipoInstruccion;
